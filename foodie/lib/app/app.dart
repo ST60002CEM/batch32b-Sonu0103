@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodie/screen/login.dart';
+import 'package:foodie/screen/signup_screen.dart';
 import 'package:foodie/screen/splash_screen.dart';
 
 class App extends StatelessWidget {

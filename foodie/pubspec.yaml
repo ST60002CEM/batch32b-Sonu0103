@@ -10,8 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_sign_in: ^5.1.0
+  sign_in_with_apple: ^4.0.0
+  flutter_facebook_auth: ^5.0.6
 
-  cupertino_icons: ^1.0.6
+
 
 dev_dependencies:
   flutter_test:

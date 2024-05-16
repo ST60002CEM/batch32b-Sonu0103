@@ -4,6 +4,13 @@ import 'package:foodie/screen/login.dart';
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    });
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(30, 94, 209, 1),
       body: Center(
