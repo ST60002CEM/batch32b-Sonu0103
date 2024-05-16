@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/screen/dashboard_screen.dart';
 import 'package:foodie/screen/signup_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
@@ -66,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Image.asset(
                   'assets/images/new.jpg',
-                  height: 200.0, // Adjust the height as needed
+                  height: 250, // Adjust the height as needed
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -118,6 +119,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DashboardScreen()),
+                      );
                     if (_formKey.currentState!.validate()) {
                       // Perform login action
                       ScaffoldMessenger.of(context).showSnackBar(
