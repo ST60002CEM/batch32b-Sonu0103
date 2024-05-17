@@ -47,28 +47,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 40),
+            SizedBox(height: 20),
             Container(
               alignment: Alignment.centerLeft,
               color: Color.fromRGBO(30, 94, 209, 1),
               padding: EdgeInsets.all(20),
               child: Column(
                 children: [
-                  Text(
-                    'The Fastest\nFood Delivery',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Image.asset(
+                      'assets/images/new.jpg',
+                      height: 100,
                     ),
                   ),
-                  SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Implement order now functionality
-                    },
-                    child: Text('Order Now'),
-                  ),
+                  Container(
+                    alignment: Alignment.centerLeft, // Aligns the container to the left side
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start, // Aligns children to the start, i.e., left side
+                      children: [
+                        Text(
+                          'The Fastest\nFood Delivery',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Implement order now functionality
+                          },
+                          child: Text('Order Now'),
+                        ),
+                        // Add other widgets here if needed
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -84,40 +100,60 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       width: 80,
                       fit: BoxFit.cover,
                     ),
-                    Text('All'),
+                    Text(
+                      'All',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   children: [
                     Image.asset(
-                      'assets/images/new.jpg',
+                      'assets/images/burger.jpg',
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
                     ),
-                    Text('Burger'),
+                    Text(
+                      'Burger',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   children: [
                     Image.asset(
-                      'assets/images/new.jpg',
+                      'assets/images/pizza.jpg',
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
                     ),
-                    Text('Pizza'),
+                    Text(
+                      'Pizza',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
                 Column(
                   children: [
                     Image.asset(
-                      'assets/images/new.jpg',
+                      'assets/images/dessert.jpg',
                       height: 80,
                       width: 80,
                       fit: BoxFit.cover,
                     ),
-                    Text('Dessert'),
+                    Text(
+                      'Dessert',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -125,7 +161,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             SizedBox(height: 20),
             Text(
               'Popular',
-              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -135,17 +170,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset(
-                  'assets/images/new.jpg',
-                  height: 100,
-                  width: 150,
-                  fit: BoxFit.cover,
+                Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/burger.jpg',
+                      height: 100,
+                      width: 150,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Burger',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Price:Rs.150',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                Image.asset(
-                  'assets/images/new.jpg',
-                  height: 100,
-                  width: 150,
-                  fit: BoxFit.cover,
+                Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/pizza.jpg',
+                      height: 100,
+                      width: 150,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Pizza',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Price:Rs.200',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    
+                  ],
                 ),
               ],
             ),
@@ -154,12 +216,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.red,
-
-
         items: [
           BottomNavigationBarItem(
             backgroundColor: Colors.black,
-
             icon: IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
@@ -167,10 +226,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
             label: 'Home',
-
           ),
           BottomNavigationBarItem(
-
             icon: IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
@@ -202,4 +259,5 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
+
 
