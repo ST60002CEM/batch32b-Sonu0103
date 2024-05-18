@@ -49,20 +49,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             SizedBox(height: 20),
             Container(
-              alignment: Alignment.centerLeft,
               color: Color.fromRGBO(30, 94, 209, 1),
               padding: EdgeInsets.all(20),
-              child: Column(
+              child: Row(
                 children: [
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Image.asset(
-                      'assets/images/new.jpg',
-                      height: 100,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -70,7 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           'The Fastest\nFood Delivery',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -79,11 +70,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           onPressed: () {
                             // Implement order now functionality
                           },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                          ),
                           child: Text('Order Now'),
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  SizedBox(width: 20),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'assets/images/logo2.png',
+                      height: 150,
+                      width: 150,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -183,7 +189,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Price: Rs.150',
+                      'Price: Rs.200',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -198,11 +204,55 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     SizedBox(height: 5),
                     Text(
-                      'Pizza',
+                      'Chicken Pizza',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Price: Rs.150',
+                      'Price: Rs.300',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Category',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/Biryani.jpg',
+                      height: 100,
+                      width: 150,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Chinese',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Image.asset(
+                      'assets/images/Biryani.jpg',
+                      height: 100,
+                      width: 150,
+                      fit: BoxFit.cover,
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      'Indian',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -257,5 +307,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
-

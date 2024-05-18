@@ -79,7 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
-                  'assets/images/new.jpg',
+                  'assets/images/logo2.png',
                   height: 250, // Adjust the height as needed
                 ),
                 const SizedBox(height: 20),
@@ -190,16 +190,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton.icon(
-                  onPressed: _handleAppleSignIn,
-                  icon: const Icon(Icons.apple, color: Colors.black),
-                  label: const Text('Sign Up with Apple'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Apple black
-                    minimumSize: const Size(double.infinity, 50), // Button size
-                    side: const BorderSide(color: Colors.black), // Button border
-                  ),
-                ),
+
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
