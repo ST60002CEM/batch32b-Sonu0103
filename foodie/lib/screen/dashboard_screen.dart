@@ -62,9 +62,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                   Container(
-                    alignment: Alignment.centerLeft, // Aligns the container to the left side
+                    alignment: Alignment.centerLeft,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start, // Aligns children to the start, i.e., left side
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'The Fastest\nFood Delivery',
@@ -81,7 +81,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           },
                           child: Text('Order Now'),
                         ),
-                        // Add other widgets here if needed
                       ],
                     ),
                   )
@@ -184,7 +183,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Price:Rs.150',
+                      'Price: Rs.150',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -203,10 +202,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Price:Rs.200',
+                      'Price: Rs.150',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    
                   ],
                 ),
               ],

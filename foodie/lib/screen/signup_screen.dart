@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodie/screen/login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -12,8 +16,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-  TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  Future<void> _handleGoogleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+      // Handle successful login here
+    } catch (error) {
+      // Handle login error here
+    }
+  }
+
+  Future<void> _handleFacebookSignIn() async {
+    try {
+      final result = await FacebookAuth.instance.login();
+      if (result.status == LoginStatus.success) {
+        // Handle successful login here
+      } else {
+        // Handle login error here
+      }
+    } catch (error) {
+      // Handle login error here
+    }
+  }
+
+  Future<void> _handleAppleSignIn() async {
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      // Handle successful login here
+    } catch (error) {
+      // Handle login error here
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +80,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               children: <Widget>[
                 Image.asset(
                   'assets/images/new.jpg',
-
+                  height: 250, // Adjust the height as needed
                 ),
-                SizedBox(
-                  height: 20.0, // Adjust the gap height as needed
-                ),
+                const SizedBox(height: 20),
                 TextFormField(
                   controller: _usernameController,
                   decoration: const InputDecoration(
@@ -125,6 +164,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: const Text('Sign Up'),
                 ),
                 const SizedBox(height: 40),
+                ElevatedButton.icon(
+                  onPressed: _handleGoogleSignIn,
+                  icon: Image.asset(
+                    'assets/images/google.png', // Ensure you have a Google logo asset
+                    height: 24.0,
+                    width: 24.0,
+                  ),
+                  label: const Text('Sign Up with Google'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black, backgroundColor: Colors.white, // Button text color
+                    minimumSize: const Size(double.infinity, 50), // Button size
+                    side: const BorderSide(color: Colors.black), // Button border
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton.icon(
+                  onPressed: _handleFacebookSignIn,
+                  icon: const Icon(Icons.facebook, color: Colors.blue),
+                  label: const Text('Sign Up with Facebook'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Facebook blue
+                    minimumSize: const Size(double.infinity, 50), // Button size
+                    side: const BorderSide(color: Colors.black), // Button border
+                  ),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton.icon(
+                  onPressed: _handleAppleSignIn,
+                  icon: const Icon(Icons.apple, color: Colors.black),
+                  label: const Text('Sign Up with Apple'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Apple black
+                    minimumSize: const Size(double.infinity, 50), // Button size
+                    side: const BorderSide(color: Colors.black), // Button border
+                  ),
+                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -134,7 +210,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        // Navigate to the login screen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                        );
                       },
                       child: Text(
                         'Login',
