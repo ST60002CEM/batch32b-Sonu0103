@@ -230,7 +230,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Column(
                   children: [
                     Image.asset(
-                      'assets/images/Biryani.jpg',
+                      'assets/images/chinese.jpg',
                       height: 100,
                       width: 150,
                       fit: BoxFit.cover,
@@ -245,7 +245,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Column(
                   children: [
                     Image.asset(
-                      'assets/images/Biryani.jpg',
+                      'assets/images/indian.jpg',
                       height: 100,
                       width: 150,
                       fit: BoxFit.cover,
