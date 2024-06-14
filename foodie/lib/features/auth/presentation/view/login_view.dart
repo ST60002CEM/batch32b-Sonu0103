@@ -1,22 +1,27 @@
+import 'package:finalproject/features/auth/presentation/view/register_view.dart';
+import 'package:finalproject/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie/screen/dashboard_screen.dart';
-import 'package:foodie/screen/signup_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginView extends ConsumerStatefulWidget {
+  const LoginView({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  ConsumerState<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController =
+      TextEditingController(text: 'sonu@gmail.com');
+  final TextEditingController _passwordController =
+      TextEditingController(text: 'test');
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+  bool _isPasswordVisible = false;
 
   Future<void> _handleGoogleSignIn() async {
     try {
@@ -26,8 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
       // Handle login error here
     }
   }
-
-
 
   Future<void> _handleFacebookSignIn() async {
     try {
@@ -74,7 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Email',
                     labelStyle: TextStyle(color: Colors.white),
-
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -95,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
-                  obscureText: true,
+                  obscureText: !_isPasswordVisible,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter your password';
@@ -109,26 +111,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       // Handle forgot password here
                     },
-                    child: const Text('Forgot Password?',
-                    style: TextStyle(color: Colors.white),
+                    child: const Text(
+                      'Forgot Password?',
+                      style: TextStyle(color: Colors.white),
                     ),
-
                   ),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DashboardScreen()),
-                      );
-                    if (_formKey.currentState!.validate()) {
-                      // Perform login action
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Logging in')),
-                      );
-                      // Add your login logic here
-                    }
+                    _submitForm(context);
                   },
                   child: const Text('Login'),
                 ),
@@ -142,9 +134,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   label: const Text('Login with Google'),
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black, backgroundColor: Colors.white, // Button text color
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white, // Button text color
                     minimumSize: const Size(double.infinity, 50), // Button size
-                    side: const BorderSide(color: Colors.black), // Button border
+                    side:
+                        const BorderSide(color: Colors.black), // Button border
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -153,29 +147,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   icon: const Icon(Icons.facebook, color: Colors.blue),
                   label: const Text('Login with Facebook'),
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white, // Facebook blue
-                      minimumSize: const Size(double.infinity, 50),
-                      side: const BorderSide(color: Colors.black)// Button size
+                    backgroundColor: Colors.white, // Facebook blue
+                    minimumSize: const Size(double.infinity, 50),
+                    side: const BorderSide(color: Colors.black), // Button size
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?",
-                    style: TextStyle(color: Colors.white),
+                    const Text(
+                      "Don't have an account?",
+                      style: TextStyle(color: Colors.white),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SignUpScreen()),
-                        );
-                        // Navigate to the register screen
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => const RegisterView()));
                       },
-                      child: Text('Signup',
-                      style: TextStyle(color: Colors.white),
+                      child: const Text(
+                        'Sign up',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ],
@@ -186,5 +178,14 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void _submitForm(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      await ref.read(authViewModelProvider.notifier).loginUser(
+            _emailController.text,
+            _passwordController.text,
+          );
+    }
   }
 }

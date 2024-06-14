@@ -1,22 +1,29 @@
+import 'package:finalproject/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:foodie/screen/login.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:finalproject/features/auth/domain/entity/auth_entity.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class RegisterView extends ConsumerStatefulWidget {
+  const RegisterView({super.key});
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  ConsumerState<RegisterView> createState() => _RegisterViewState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _RegisterViewState extends ConsumerState<RegisterView> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _fnameController =
+      TextEditingController(text: 'Sonu');
+  final TextEditingController _lnameController =
+      TextEditingController(text: 'Singh');
+  final TextEditingController _emailController =
+      TextEditingController(text: 'sonu@gmail.com');
+  final TextEditingController _passwordController =
+      TextEditingController(text: 'test');
+  final TextEditingController _confirmPasswordController =
+      TextEditingController(text: 'test');
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -42,33 +49,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  Future<void> _handleAppleSignIn() async {
-    try {
-      final appleCredential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-      // Handle successful login here
-    } catch (error) {
-      // Handle login error here
-    }
+  @override
+  void dispose() {
+    _fnameController.dispose();
+    _lnameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(20, 50, 100, 1),
-        title: Text(
+        backgroundColor: const Color.fromRGBO(20, 50, 100, 1),
+        title: const Text(
           'Foodie',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
       ),
-      backgroundColor: Color.fromRGBO(30, 94, 209, 1),
+      backgroundColor: const Color.fromRGBO(30, 94, 209, 1),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -84,15 +87,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _usernameController,
+                  controller: _fnameController,
                   decoration: const InputDecoration(
-                    labelText: 'Username',
+                    labelText: 'First Name',
                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your username';
+                      return 'Please enter your first name';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: _lnameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Last Name',
+                    labelStyle: TextStyle(color: Colors.white),
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your last name';
                     }
                     return null;
                   },
@@ -155,10 +173,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Perform signup action
+                      var user = AuthEntity(
+                        fname: _fnameController.text,
+                        lname: _lnameController.text,
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      );
+                      ref
+                          .read(authViewModelProvider.notifier)
+                          .registerUser(user);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Signing up')),
                       );
-                      // Add your signup logic here
                     }
                   },
                   child: const Text('Sign Up'),
@@ -173,9 +199,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   label: const Text('Sign Up with Google'),
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black, backgroundColor: Colors.white, // Button text color
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white, // Button text color
                     minimumSize: const Size(double.infinity, 50), // Button size
-                    side: const BorderSide(color: Colors.black), // Button border
+                    side:
+                        const BorderSide(color: Colors.black), // Button border
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -186,11 +214,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white, // Facebook blue
                     minimumSize: const Size(double.infinity, 50), // Button size
-                    side: const BorderSide(color: Colors.black), // Button border
+                    side:
+                        const BorderSide(color: Colors.black), // Button border
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -201,12 +229,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()),
-                        );
+                        Navigator.pop(context);
                       },
-                      child: Text(
+                      child: const Text(
                         'Login',
                         style: TextStyle(color: Colors.white),
                       ),

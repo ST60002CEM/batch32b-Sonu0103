@@ -1,11 +1,15 @@
+import 'package:finalproject/features/auth/presentation/view/login_view.dart';
+import 'package:finalproject/features/category/presentation/view/categoy_view.dart';
 import 'package:flutter/material.dart';
 
-class DashboardScreen extends StatefulWidget {
+class DashboardView extends StatefulWidget {
+  const DashboardView({Key? key}) : super(key: key);
+
   @override
-  _DashboardScreenState createState() => _DashboardScreenState();
+  State<DashboardView> createState() => _DashboardViewState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 // Implement search functionality
               },
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.search),
                   SizedBox(width: 10),
@@ -73,7 +78,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             foregroundColor: Colors.black,
-                            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 15),
                           ),
                           child: Text('Order Now'),
                         ),
@@ -97,70 +103,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/new.jpg',
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.cover,
-                    ),
-                    Text(
-                      'All',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/burger.jpg',
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.cover,
-                    ),
-                    Text(
-                      'Burger',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/pizza.jpg',
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.cover,
-                    ),
-                    Text(
-                      'Pizza',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/dessert.jpg',
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.cover,
-                    ),
-                    Text(
-                      'Dessert',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+                _buildCategoryItem('All', 'assets/images/new.jpg'),
+                _buildCategoryItem('Burger', 'assets/images/burger.jpg'),
+                _buildCategoryItem('Pizza', 'assets/images/pizza.jpg'),
+                _buildCategoryItem('Dessert', 'assets/images/dessert.jpg'),
               ],
             ),
             SizedBox(height: 20),
@@ -175,44 +121,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/burger.jpg',
-                      height: 100,
-                      width: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Burger',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Price: Rs.200',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/pizza.jpg',
-                      height: 100,
-                      width: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Chicken Pizza',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'Price: Rs.300',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                _buildPopularItem(
+                    'Burger', 'Rs.200', 'assets/images/burger.jpg'),
+                _buildPopularItem(
+                    'Chicken Pizza', 'Rs.300', 'assets/images/pizza.jpg'),
               ],
             ),
             SizedBox(height: 20),
@@ -227,36 +139,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/chinese.jpg',
-                      height: 100,
-                      width: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Chinese',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/images/indian.jpg',
-                      height: 100,
-                      width: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'Indian',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                _buildCategoryItem('Chinese', 'assets/images/chinese.jpg'),
+                _buildCategoryItem('Indian', 'assets/images/indian.jpg'),
               ],
             ),
           ],
@@ -304,6 +188,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildCategoryItem(String label, String imagePath) {
+    return Column(
+      children: [
+        Image.asset(
+          imagePath,
+          height: 80,
+          width: 80,
+          fit: BoxFit.cover,
+        ),
+        SizedBox(height: 5),
+        Text(
+          label,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPopularItem(String label, String price, String imagePath) {
+    return Column(
+      children: [
+        Image.asset(
+          imagePath,
+          height: 100,
+          width: 150,
+          fit: BoxFit.cover,
+        ),
+        SizedBox(height: 5),
+        Text(
+          label,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          'Price: $price',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }
