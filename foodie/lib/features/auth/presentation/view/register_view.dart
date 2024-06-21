@@ -15,15 +15,15 @@ class RegisterView extends ConsumerStatefulWidget {
 class _RegisterViewState extends ConsumerState<RegisterView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _fnameController =
-      TextEditingController(text: 'Sonu');
+      TextEditingController();
   final TextEditingController _lnameController =
-      TextEditingController(text: 'Singh');
+      TextEditingController();
   final TextEditingController _emailController =
-      TextEditingController(text: 'sonu@gmail.com');
+      TextEditingController();
   final TextEditingController _passwordController =
-      TextEditingController(text: 'test');
+      TextEditingController();
   final TextEditingController _confirmPasswordController =
-      TextEditingController(text: 'test');
+      TextEditingController();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -174,17 +174,14 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     if (_formKey.currentState!.validate()) {
                       // Perform signup action
                       var user = AuthEntity(
-                        fname: _fnameController.text,
-                        lname: _lnameController.text,
+                        firstName: _fnameController.text,
+                        lastName: _lnameController.text,
                         email: _emailController.text,
                         password: _passwordController.text,
                       );
                       ref
                           .read(authViewModelProvider.notifier)
                           .registerUser(user);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Signing up')),
-                      );
                     }
                   },
                   child: const Text('Sign Up'),

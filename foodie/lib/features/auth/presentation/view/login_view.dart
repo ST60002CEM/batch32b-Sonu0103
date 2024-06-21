@@ -15,9 +15,9 @@ class LoginView extends ConsumerStatefulWidget {
 class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController =
-      TextEditingController(text: 'sonu@gmail.com');
+      TextEditingController();
   final TextEditingController _passwordController =
-      TextEditingController(text: 'test');
+      TextEditingController();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -73,6 +73,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  key: const ValueKey('email'),
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Email',
@@ -91,6 +92,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  key: const ValueKey('password'),
                   controller: _passwordController,
                   decoration: const InputDecoration(
                     labelText: 'Password',
@@ -119,8 +121,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    _submitForm(context);
+                  onPressed: () async{
+                    await ref.read(authViewModelProvider.notifier).loginUser(
+                      _emailController.text,
+                      _passwordController.text,
+                    );
                   },
                   child: const Text('Login'),
                 ),

@@ -50,8 +50,8 @@ class AuthHiveModel {
   // Convert Hive Object to Entity
   AuthEntity toEntity() => AuthEntity(
         id: userId,
-        fname: fname,
-        lname: lname,
+        firstName: fname,
+        lastName: lname,
         email: email,
         password: password,
       );
@@ -59,8 +59,8 @@ class AuthHiveModel {
   // Convert Entity to Hive Object
   AuthHiveModel toHiveModel(AuthEntity entity) => AuthHiveModel(
         userId: const Uuid().v4(),
-        fname: entity.fname,
-        lname: entity.lname,
+        fname: entity.firstName,
+        lname: entity.lastName,
         email: entity.email,
         password: entity.password,
       );
