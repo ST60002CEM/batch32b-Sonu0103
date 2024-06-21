@@ -27,7 +27,7 @@ final dashboardViewNavigatorProvider = Provider<DashboardViewNavigator>((ref) {
   return DashboardViewNavigator();
 });
 
-class DashboardViewNavigator with LoginViewRoute {}
+class DashboardViewNavigator with DashboardViewRoute {}
 
 mixin DashboardViewRoute {
   openDashboardView() {
