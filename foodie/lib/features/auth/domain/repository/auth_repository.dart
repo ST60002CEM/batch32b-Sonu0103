@@ -4,8 +4,10 @@ import 'package:finalproject/features/auth/data/repository/auth_local_repository
 import 'package:finalproject/features/auth/domain/entity/auth_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../data/repository/auth_remote_repository.dart';
+
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
-  return ref.read(authLocalRepositoryProvider);
+  return ref.read(authRemoteRepositoryProvider);
 });
 
 abstract class IAuthRepository {
