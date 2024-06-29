@@ -1,12 +1,10 @@
-import 'package:finalproject/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:finalproject/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:finalproject/features/auth/domain/entity/auth_entity.dart';
 
 class RegisterView extends ConsumerStatefulWidget {
-  const RegisterView({super.key});
+  const RegisterView({Key? key}) : super(key: key);
 
   @override
   ConsumerState<RegisterView> createState() => _RegisterViewState();
@@ -14,40 +12,12 @@ class RegisterView extends ConsumerStatefulWidget {
 
 class _RegisterViewState extends ConsumerState<RegisterView> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _fnameController =
-      TextEditingController();
-  final TextEditingController _lnameController =
-      TextEditingController();
-  final TextEditingController _emailController =
-      TextEditingController();
-  final TextEditingController _passwordController =
-      TextEditingController();
+  final TextEditingController _fnameController = TextEditingController();
+  final TextEditingController _lnameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
-      TextEditingController();
-
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-  Future<void> _handleGoogleSignIn() async {
-    try {
-      await _googleSignIn.signIn();
-      // Handle successful login here
-    } catch (error) {
-      // Handle login error here
-    }
-  }
-
-  Future<void> _handleFacebookSignIn() async {
-    try {
-      final result = await FacebookAuth.instance.login();
-      if (result.status == LoginStatus.success) {
-        // Handle successful login here
-      } else {
-        // Handle login error here
-      }
-    } catch (error) {
-      // Handle login error here
-    }
-  }
+  TextEditingController();
 
   @override
   void dispose() {
@@ -63,7 +33,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(20, 50, 100, 1),
+        backgroundColor: Colors.blueAccent, // Adjust color as needed
         title: const Text(
           'Foodie',
           style: TextStyle(
@@ -71,7 +41,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
           ),
         ),
       ),
-      backgroundColor: const Color.fromRGBO(30, 94, 209, 1),
+      backgroundColor: Colors.white, // Adjust background color
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -90,7 +60,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   controller: _fnameController,
                   decoration: const InputDecoration(
                     labelText: 'First Name',
-                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -105,7 +74,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   controller: _lnameController,
                   decoration: const InputDecoration(
                     labelText: 'Last Name',
-                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -120,7 +88,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -138,7 +105,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   controller: _passwordController,
                   decoration: const InputDecoration(
                     labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
                   obscureText: true,
@@ -154,7 +120,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   controller: _confirmPasswordController,
                   decoration: const InputDecoration(
                     labelText: 'Confirm Password',
-                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
                   obscureText: true,
@@ -187,42 +152,12 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   child: const Text('Sign Up'),
                 ),
                 const SizedBox(height: 40),
-                ElevatedButton.icon(
-                  onPressed: _handleGoogleSignIn,
-                  icon: Image.asset(
-                    'assets/images/google.png', // Ensure you have a Google logo asset
-                    height: 24.0,
-                    width: 24.0,
-                  ),
-                  label: const Text('Sign Up with Google'),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.white, // Button text color
-                    minimumSize: const Size(double.infinity, 50), // Button size
-                    side:
-                        const BorderSide(color: Colors.black), // Button border
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton.icon(
-                  onPressed: _handleFacebookSignIn,
-                  icon: const Icon(Icons.facebook, color: Colors.blue),
-                  label: const Text('Sign Up with Facebook'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Facebook blue
-                    minimumSize: const Size(double.infinity, 50), // Button size
-                    side:
-                        const BorderSide(color: Colors.black), // Button border
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
                       "Already have an account?",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                     TextButton(
                       onPressed: () {
@@ -230,7 +165,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                       },
                       child: const Text(
                         'Login',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.blueAccent),
                       ),
                     ),
                   ],
