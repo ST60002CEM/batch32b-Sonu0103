@@ -2,11 +2,9 @@ import 'package:finalproject/features/auth/presentation/view/register_view.dart'
 import 'package:finalproject/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LoginView extends ConsumerStatefulWidget {
-  const LoginView({super.key});
+  const LoginView({Key? key}) : super(key: key);
 
   @override
   ConsumerState<LoginView> createState() => _LoginViewState();
@@ -14,50 +12,23 @@ class LoginView extends ConsumerStatefulWidget {
 
 class _LoginViewState extends ConsumerState<LoginView> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController =
-      TextEditingController();
-  final TextEditingController _passwordController =
-      TextEditingController();
-
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-
-  Future<void> _handleGoogleSignIn() async {
-    try {
-      await _googleSignIn.signIn();
-      // Handle successful login here
-    } catch (error) {
-      // Handle login error here
-    }
-  }
-
-  Future<void> _handleFacebookSignIn() async {
-    try {
-      final result = await FacebookAuth.instance.login();
-      if (result.status == LoginStatus.success) {
-        // Handle successful login here
-      } else {
-        // Handle login error here
-      }
-    } catch (error) {
-      // Handle login error here
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(20, 50, 100, 1),
-        title: Text(
+        backgroundColor: Colors.blueAccent, // Adjust color as needed
+        title: const Text(
           'Foodie',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
       ),
-      backgroundColor: Color.fromRGBO(30, 94, 209, 1),
+      backgroundColor: Colors.white, // Adjust background color
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -77,7 +48,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Email',
-                    labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -94,10 +64,21 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 TextFormField(
                   key: const ValueKey('password'),
                   controller: _passwordController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Password',
-                    labelStyle: TextStyle(color: Colors.white),
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
                   ),
                   obscureText: !_isPasswordVisible,
                   validator: (value) {
@@ -115,55 +96,29 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     },
                     child: const Text(
                       'Forgot Password?',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.blueAccent),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () async{
-                    await ref.read(authViewModelProvider.notifier).loginUser(
-                      _emailController.text,
-                      _passwordController.text,
-                    );
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await ref.read(authViewModelProvider.notifier).loginUser(
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+                    }
                   },
                   child: const Text('Login'),
                 ),
                 const SizedBox(height: 40),
-                ElevatedButton.icon(
-                  onPressed: _handleGoogleSignIn,
-                  icon: Image.asset(
-                    'assets/images/google.png', // Ensure you have a Google logo asset
-                    height: 24.0,
-                    width: 24.0,
-                  ),
-                  label: const Text('Login with Google'),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.white, // Button text color
-                    minimumSize: const Size(double.infinity, 50), // Button size
-                    side:
-                        const BorderSide(color: Colors.black), // Button border
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton.icon(
-                  onPressed: _handleFacebookSignIn,
-                  icon: const Icon(Icons.facebook, color: Colors.blue),
-                  label: const Text('Login with Facebook'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Facebook blue
-                    minimumSize: const Size(double.infinity, 50),
-                    side: const BorderSide(color: Colors.black), // Button size
-                  ),
-                ),
-                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
                       "Don't have an account?",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                     TextButton(
                       onPressed: () {
@@ -172,7 +127,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       },
                       child: const Text(
                         'Sign up',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.blueAccent),
                       ),
                     ),
                   ],
@@ -183,14 +138,5 @@ class _LoginViewState extends ConsumerState<LoginView> {
         ),
       ),
     );
-  }
-
-  void _submitForm(BuildContext context) async {
-    if (_formKey.currentState!.validate()) {
-      await ref.read(authViewModelProvider.notifier).loginUser(
-            _emailController.text,
-            _passwordController.text,
-          );
-    }
   }
 }
