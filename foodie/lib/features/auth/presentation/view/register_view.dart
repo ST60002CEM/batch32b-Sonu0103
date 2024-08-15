@@ -1,3 +1,4 @@
+import 'package:finalproject/features/auth/presentation/view/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:finalproject/features/auth/presentation/viewmodel/auth_view_model.dart';
@@ -12,17 +13,14 @@ class RegisterView extends ConsumerStatefulWidget {
 
 class _RegisterViewState extends ConsumerState<RegisterView> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _fnameController = TextEditingController();
-  final TextEditingController _lnameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-  TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
-    _fnameController.dispose();
-    _lnameController.dispose();
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -57,28 +55,14 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _fnameController,
+                  controller: _nameController,
                   decoration: const InputDecoration(
-                    labelText: 'First Name',
+                    labelText: 'Name',
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your first name';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _lnameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Last Name',
-                    border: OutlineInputBorder(),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter your last name';
+                      return 'Please enter your name';
                     }
                     return null;
                   },
@@ -139,8 +123,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     if (_formKey.currentState!.validate()) {
                       // Perform signup action
                       var user = AuthEntity(
-                        firstName: _fnameController.text,
-                        lastName: _lnameController.text,
+                        name: _nameController.text,
                         email: _emailController.text,
                         password: _passwordController.text,
                       );
@@ -161,7 +144,8 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => const LoginView()));
                       },
                       child: const Text(
                         'Login',

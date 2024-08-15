@@ -14,32 +14,25 @@ class AuthApiModel {
   @JsonKey(name: '_id')
   final String? id;
 
-  final String firstName;
-
-  final String lastName;
-
+  final String name;
   final String email;
-
   final String? password;
 
   AuthApiModel({
     this.id,
-    required this.firstName,
-    required this.lastName,
+    required this.name,
     required this.email,
-    required this.password,
+    this.password,
   });
 
   // Empty constructor
   AuthApiModel.empty()
       : id = '',
-        firstName = '',
-        lastName = '',
+        name = '',
         email = '',
         password = '';
 
-  factory AuthApiModel.fromJson(Map<String, dynamic> json) =>
-     _$AuthApiModelFromJson(json);
+  factory AuthApiModel.fromJson(Map<String, dynamic> json) => _$AuthApiModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$AuthApiModelToJson(this);
 
@@ -47,13 +40,16 @@ class AuthApiModel {
   AuthEntity toEntity() {
     return AuthEntity(
       id: id,
-      firstName: firstName,
-      lastName: lastName,
+      name: name,
       email: email,
-
       password: password ?? '',
     );
   }
 
-  AuthApiModel fromEntity(AuthEntity entity) => AuthApiModel(firstName: entity.firstName, lastName: entity.lastName, email: entity.email, password:entity.password,);
+  AuthApiModel fromEntity(AuthEntity entity) => AuthApiModel(
+    id: entity.id,
+    name: entity.name,
+    email: entity.email,
+    password: entity.password,
+  );
 }
