@@ -10,7 +10,7 @@ Future<void> main() async {
   // Box box = await Hive.openBox('Box');
   // Hive.registerAdapter(MyObjectAdaptor());
   WidgetsFlutterBinding.ensureInitialized();
-  await HiveService().init();
+  // await HiveService().init();
   runApp(
     const ProviderScope(child: App()),
   );
