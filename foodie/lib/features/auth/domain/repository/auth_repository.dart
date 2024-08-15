@@ -10,11 +10,8 @@ import '../../data/repository/auth_remote_repository.dart';
 final authRepositoryProvider = Provider<IAuthRepository>((ref) {
   final checkConnectivity = ref.read(connectivityStatusProvider);
 
-  if(checkConnectivity == ConnectivityStatus.isConnected){
-    return ref.read(authLocalRepositoryProvider);
-  }else{
-    return ref.read(authLocalRepositoryProvider);
-  }
+  return ref.read(authRemoteRepositoryProvider);
+
 });
 
 abstract class IAuthRepository {
