@@ -30,7 +30,7 @@ final List<Category> categories = [
     image: "assets/images/menu_4.png",
   ),
   Category(
-    title: "Dessert",
+    title: "Cake",
     image: "assets/images/menu_5.png",
   ),
 ];
