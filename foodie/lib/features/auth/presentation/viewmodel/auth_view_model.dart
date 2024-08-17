@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:finalproject/features/auth/presentation/navigator/login_navigator.dart';
 import 'package:finalproject/features/auth/presentation/navigator/register_navigator.dart';
-// import 'package:finalproject/features/dashboard/presentation/navigator/dashboard_navigator.dart';
-// import 'package:finalproject/features/dashboard/presentation/view/dashboard_screen.dart';
 import '../../../../core/common/my_snackbar.dart';
 import '../../../home/presentation/navigator/dashboard_navigator.dart';
 import '../../domain/entity/auth_entity.dart';
@@ -23,15 +21,16 @@ final authViewModelProvider = StateNotifierProvider<AuthViewModel, AuthState>(
 
 class AuthViewModel extends StateNotifier<AuthState> {
   AuthViewModel(
-      this.dnavigator, this.rnavigator, this.lnavigator, this.authUseCase)
-      : super(AuthState.initial());
+      this.dnavigator,
+      this.rnavigator,
+      this.lnavigator,
+      this.authUseCase,
+      ) : super(AuthState.initial());
+
   final AuthUseCase authUseCase;
   final LoginViewNavigator lnavigator;
   final RegisterViewNavigator rnavigator;
   final DashboardViewNavigator dnavigator;
-  // final LoginViewNavigator navigator;
-
-
 
   Future<void> registerUser(AuthEntity user) async {
     state = state.copyWith(isLoading: true);
@@ -47,7 +46,6 @@ class AuthViewModel extends StateNotifier<AuthState> {
           (success) {
         state = state.copyWith(isLoading: false, error: null);
         showMySnackBar(message: "Successfully registered");
-        // openLoginView();
       },
     );
   }
@@ -70,15 +68,11 @@ class AuthViewModel extends StateNotifier<AuthState> {
     );
   }
 
-  // void openRegisterView() {
-  //   rnavigator.openLoginView();
-  // }
-  //
-  // void openLoginView() {
-  //   lnavigator.openLoginView();
-  // }
-  //
   void openDashboardView() {
     dnavigator.openDashboardView();
+  }
+
+  void openForgotPasswordView() {
+    lnavigator.openForgotPasswordView();
   }
 }
