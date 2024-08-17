@@ -2,6 +2,9 @@ import 'package:finalproject/features/auth/presentation/view/register_view.dart'
 import 'package:finalproject/features/auth/presentation/viewmodel/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../home/presentation/view/screen/nav_bar_screen.dart';
+
+
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -92,7 +95,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      // Handle forgot password here
+                      ref
+                          .read(authViewModelProvider.notifier)
+                          .openForgotPasswordView(); // Navigate to forgot password view
                     },
                     child: const Text(
                       'Forgot Password?',
@@ -102,16 +107,25 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(8, 113, 237, 1),
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                    textStyle: const TextStyle(fontSize: 16),
+                  ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       await ref.read(authViewModelProvider.notifier).loginUser(
                         _emailController.text,
                         _passwordController.text,
                       );
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (_) => const BottomNavBar()),
+                      );
                     }
                   },
                   child: const Text('Login'),
                 ),
+
                 const SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -140,3 +154,4 @@ class _LoginViewState extends ConsumerState<LoginView> {
     );
   }
 }
+
