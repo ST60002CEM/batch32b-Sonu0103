@@ -1,13 +1,14 @@
 
 
 import 'package:finalproject/features/home/data/model/product_model.dart';
-import 'package:finalproject/features/home/presentation/view/screen/Home/Widget/category.dart';
+
 import 'package:finalproject/features/home/presentation/view/screen/Home/Widget/product_cart.dart';
 import 'package:finalproject/features/home/presentation/view/screen/Home/Widget/search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+import '../../../../data/model/category.dart';
 import 'Widget/home_app_bar.dart';
 import 'Widget/image_slider.dart';
 
@@ -20,8 +21,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentSlider = 0;
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    List<List<Product>> selectedCategories = [
+      all,
+      salad,
+      rolls,
+      dessert,
+      sandwiches,
+      cake,
+    ];
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -35,7 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 20),
     //           for search bar
-              const MySearchBAR(),
+              MySearchBAR(allProducts: all),
+              const SizedBox(height: 20),
+              // const MySearchBAR(allProducts: [],),
               const SizedBox(height: 20),
               ImageSlider(currentSlide: currentSlider,
                   onChange: (value){
@@ -48,7 +60,52 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
     //           for category selection
-              const Categories(),
+              SizedBox(
+                  height: 130,
+                  child: ListView.builder(
+                    itemCount: categories.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index){
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedIndex = index;
+                          });
+
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: selectedIndex == index
+                                ?Colors.blue[200]
+                                :Colors.transparent,
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 65,
+                                width: 65,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: AssetImage(categories[index].image),fit: BoxFit.cover
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Text(categories[index].title,
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),)
+                            ],
+                          ),
+                        ),
+                      );
+
+                    },
+                  )
+              ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -79,10 +136,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     childAspectRatio: 0.78,
                     crossAxisSpacing: 20,mainAxisSpacing: 20,
                   ),
-                  itemCount: products.length,
+                  itemCount: selectedCategories[selectedIndex].length,
                   itemBuilder: (context, index){
                     return ProductCart(
-                      product: products[index],
+                      product: selectedCategories[selectedIndex][index],
                     );
                   })
     ]
